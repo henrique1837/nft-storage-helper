@@ -16,6 +16,7 @@
     "fs": "^0.0.1-security",
     "ipfs-http-client": "^56.0.3",
     "nft.storage": "^6.2.0",
+    "path": "^0.12.7",
     "readable": "^1.1.3"
   }
 }

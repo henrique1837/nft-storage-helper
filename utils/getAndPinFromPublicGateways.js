@@ -13,9 +13,9 @@ const getAndPinFromPublicGateways = async (cid) => {
   const image = (await axios.get(metadata.image.replace("ipfs://",gateways[Math.floor(Math.random()*gateways.length)]))).data
   const cidImage = metadata.image.replace("ipfs://","");
   console.log(`Saving ${cid} metadata and ${cidImage} image and local pinning`);
-  let writeSource = fs.createWriteStream(`json/${cid}.json`);
+  let writeSource = fs.createWriteStream(`./data/${process.env.ADDRESS}/json/${cid}.json`);
   writeSource.write(JSON.stringify(metadata));
-  writeSource = fs.createWriteStream(`images/${cid}_image`);
+  writeSource = fs.createWriteStream(`./data/${process.env.ADDRESS}/images/${cid}_image`);
   writeSource.write(image);
   if(ipfs){
     ipfs.pin.add(cid).then(cid => {console.log(`${cid} pinnned!`)});

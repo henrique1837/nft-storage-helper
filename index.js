@@ -1,6 +1,7 @@
 import ethers from 'ethers';
-import fs from 'fs';
 import getAndPinFromPublicGateways from './utils/getAndPinFromPublicGateways.js';
+import checkDirectories from './utils/checkDirectories.js';
+
 // ERC1155 URI event https://docs.openzeppelin.com/contracts/4.x/api/token/erc1155#IERC1155-URI-string-uint256- //
 const abi = [{"type":"event","name":"URI","inputs":[{"type":"string","name":"value","internalType":"string","indexed":false},{"type":"uint256","name":"id","internalType":"uint256","indexed":true}],"anonymous":false}]
 
@@ -10,12 +11,7 @@ const fromId = process.env.FROM_ID;
 
 async function main(){
 
-  if (!fs.existsSync('./json')){
-      fs.mkdirSync('./json');
-  }
-  if (!fs.existsSync('./images')){
-      fs.mkdirSync('./images');
-  }
+  checkDirectories();
 
   console.log('Getting all URIs from NFT contract');
   let filter = contract.filters.URI(null,null);
@@ -42,7 +38,7 @@ async function main(){
 
 
   }
-
+  process.exit();
 
 }
 
