@@ -17,12 +17,12 @@ async function init(){
       for(let file of files){
         const data = fs.readFileSync(`./data/${contract}/${folder}/${file}`, 'utf8');
         const { car } = await NFTStorage.encodeBlob(new Blob(data));
-        client.storeCar(car);
+        await client.storeCar(car);
       }
 
     }
   }
-  process.exit();
+  //process.exit();
 }
 
 
