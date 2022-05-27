@@ -15,7 +15,7 @@ The solution to that comes with the use of [nft.storage](https://nft.storage/) t
 
 ## Demo Video
 
-  soon
+  https://www.youtube.com/watch?v=Y0U2yqX0FIE
 
 ## Testing Guide
 
