@@ -22,7 +22,7 @@ async function init(){
 
     }
   }
-  //process.exit();
+  process.exit();
 }
 
 
