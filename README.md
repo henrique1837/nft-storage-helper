@@ -23,7 +23,7 @@ The solution to that comes with the use of [nft.storage](https://nft.storage/) t
 
 ### Usage
 
-`npm run install`
+`npm install`
 
 ### Getting ERC1155 Data
 

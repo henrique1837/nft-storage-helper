@@ -3,7 +3,7 @@ import fs from 'fs';
 import getAndPinFromPublicGateways from './utils/getAndPinFromPublicGateways.js';
 import checkDirectories from './utils/checkDirectories.js';
 
-// ERC1155 URI event https://docs.openzeppelin.com/contracts/4.x/api/token/erc721#IERC721-Transfer-address-address-uint256-
+// ERC721 Transfer event https://docs.openzeppelin.com/contracts/4.x/api/token/erc721#IERC721-Transfer-address-address-uint256-
 const abi = [{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":true,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"}]
 
 const provider = new ethers.providers.JsonRpcProvider(process.env.RPC);
