@@ -10,8 +10,9 @@ The solution to that comes with the use of [nft.storage](https://nft.storage/) t
 
 ## How it works     
 
-  1. Uses public gateways defined at 'utils/gateways.js' to get metadata and images from the desired NFT collection to a 'data' folder, pining in local ipfs node if this one is running;
-  2. Reads each file downloaded at 'data' folder and uses nft.storage [JavaScript client library](https://nft.storage/docs/client/js/#storecar---store-a-content-archive-car) to store content in other ipfs nodes.
+  1. Query graphs available at "utils/graphs.js" to get NFTs URIs and IDs list;
+  2. Uses public gateways defined at 'utils/gateways.js' to get metadata and images from the desired NFT collection to a 'data' folder, pining in local ipfs node if this one is running;
+  3. Reads each file downloaded at 'data' folder and uses nft.storage [JavaScript client library](https://nft.storage/docs/client/js/#storecar---store-a-content-archive-car) to store content in other ipfs nodes.
 
 ## Demo Video
 
@@ -31,14 +32,16 @@ The solution to that comes with the use of [nft.storage](https://nft.storage/) t
 
  - ADDRESS: The ERC1155 address to get metadata and images from;
  - RPC: RPC node URL to be used, it will also define the network used;
+ - TYPE (optional, default is ERC1155): Define the NFT type as ERC721 or ERC1155, used to select graph to be used;
  - FROM_ID (optional): Get data from specified ID to the last one.
 
 ### Getting ERC721 Data
 
-`ADDRESS="ERC721ADDRESS" RPC="RPC_URL" FROM_ID=ID node getERC721.js`
+`ADDRESS="ERC721ADDRESS" RPC="RPC_URL" FROM_ID=ID TYPE="ERC721" node node index.js`
 
 - ADDRESS: The ERC721 address to get metadata and images from;
 - RPC: RPC node URL to be used, it will also define the network used;
+- TYPE (optional): Define the NFT type as ERC721 or ERC1155, used to select graph to be used;
 - FROM_ID (optional): Get data from specified ID to the last one.
 
 ### Pin at nft.storage
@@ -46,3 +49,7 @@ The solution to that comes with the use of [nft.storage](https://nft.storage/) t
 `API_TOKEN="NFT_STORAGE_TOKEN" node nftstore.js`
 
 - API_TOKEN: nft.storage api key;
+
+## Example
+
+`ADDRESS="0xe6DF2905589Db3c09091462f771ed0a3b820017C" RPC="https://polygon-rpc.com" node index.js`
