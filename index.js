@@ -14,15 +14,33 @@ async function main(){
   console.log('Getting all URIs from NFT contract');
   const client = await initiateClient(provider);
   let nftsGraph;
-  let results;
+  let results = [];
+  let cond = true;
+  let skip = 0;
   if(type?.toLowerCase() == "erc721"){
     console.log("ERC721 contract");
-    nftsGraph = await getERC721From(client);
-    results = nftsGraph.erc721Contract.tokens;
+    while(cond){
+      nftsGraph = await getERC721From(client,skip);
+      let res = nftsGraph.erc721Contract.tokens;
+      if(res.length > 0){
+        res.map(item => results.push(item));
+        skip = skip + 100;
+      } else {
+        cond = false;
+      }
+    }
   } else {
     console.log("ERC1155 contract");
-    nftsGraph = await getERC1155From(client);
-    results = nftsGraph.erc1155Contract.tokens;
+    while(cond){
+      nftsGraph = await getERC1155From(client,skip);
+      let res = nftsGraph.erc1155Contract.tokens;
+      if(res.length > 0){
+        res.map(item => results.push(item));
+        skip = skip + 100;
+      } else {
+        cond = false;
+      }
+    }
 
   }
   if(results.length == 0){

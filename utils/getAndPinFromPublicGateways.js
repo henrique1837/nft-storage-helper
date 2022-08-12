@@ -8,10 +8,12 @@ import gateways from './gateways.js';
 console.log('Initiating IPFS client');
 const ipfs = create();
 const getAndPinFromPublicGateways = async (cid) => {
-  const gateway = gateways[Math.floor(Math.random()*gateways.length)];
+  let gateway = gateways[Math.floor(Math.random()*gateways.length)];
   console.log(`Using public gateway ${gateway}${cid}`);
-  const metadata = (await axios.get(`${gateway}${cid}`)).data
-  const image = (await axios.get(metadata.image.replace("ipfs://",gateways[Math.floor(Math.random()*gateways.length)]))).data
+  const metadata = (await axios.get(`${gateway}${cid}`,{timeout: 60000})).data
+  gateway = gateways[Math.floor(Math.random()*gateways.length)];
+  console.log(`Using public gateway ${metadata.image.replace("ipfs://",gateway)}`);
+  const image = (await axios.get(metadata.image.replace("ipfs://",gateway),{timeout: 120000})).data
   const cidImage = metadata.image.replace("ipfs://","");
   console.log(`Saving ${cid} metadata and ${cidImage} image and local pinning`);
   let writeSource = fs.createWriteStream(`./data/${process.env.ADDRESS}/json/${cid}.json`);
@@ -29,7 +31,10 @@ const getAndPinFromPublicGateways = async (cid) => {
   }
   return({
     metadata: cid,
-    image: cidImage
+    image: cidImage,
+    name: metadata.name,
+    description: metadata.description,
+    external_url: metadata.external_url
   })
 }
 

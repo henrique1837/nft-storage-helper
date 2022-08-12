@@ -65,13 +65,13 @@ export const initiateClient = async (provider) => {
    return(newClient);
 }
 
-export const getERC1155From = async (client) => {
+export const getERC1155From = async (client,skip) => {
   const address = process.env.ADDRESS;
   const tokensQuery = `
      query {
        erc1155Contract(id: "${address.toLowerCase()}") {
          id,
-         tokens(where: {identifier_gte:${fromId}},orderBy: identifier) {
+         tokens(where: {identifier_gte:${fromId}},orderBy: identifier,skip: ${skip}) {
            id,
            identifier,
            uri,
@@ -89,13 +89,13 @@ export const getERC1155From = async (client) => {
   return(results.data);
 }
 
-export const getERC721From = async (client) => {
+export const getERC721From = async (client,skip) => {
   const address = process.env.ADDRESS;
   const tokensQuery = `
      query {
        erc721Contract(id: "${address.toLowerCase()}") {
          id,
-         tokens(where: {identifier_gte:${fromId}},orderBy: identifier) {
+         tokens(where: {identifier_gte:${fromId}},orderBy: identifier,skip: ${skip}) {
            id,
            identifier,
            uri,
