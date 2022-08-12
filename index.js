@@ -18,11 +18,11 @@ async function main(){
   if(type?.toLowerCase() == "erc721"){
     console.log("ERC721 contract");
     nftsGraph = await getERC721From(client);
-    results = nftsGraph.erc721Tokens;
+    results = nftsGraph.erc721Contract.tokens;
   } else {
     console.log("ERC1155 contract");
     nftsGraph = await getERC1155From(client);
-    results = nftsGraph.erc1155Tokens;
+    results = nftsGraph.erc1155Contract.tokens;
 
   }
   if(results.length == 0){

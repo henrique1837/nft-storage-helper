@@ -69,17 +69,20 @@ export const getERC1155From = async (client) => {
   const address = process.env.ADDRESS;
   const tokensQuery = `
      query {
-      erc1155Tokens(
-        where: {
-          contract :"${address.toLowerCase()}",
-          identifier_gte : ${fromId}
-
-        }
-        orderBy: identifier) {
-        id,
-        identifier,
-        uri,
-      }
+       erc1155Contract(id: "${address.toLowerCase()}") {
+         id,
+         tokens(where: {identifier_gte:${fromId}},orderBy: identifier) {
+           id,
+           identifier,
+           uri,
+           totalSupply {
+             id
+           },
+           balances {
+             id
+           }
+         }
+       }
     }
   `;
   const results = await client.query(tokensQuery).toPromise()
@@ -90,16 +93,20 @@ export const getERC721From = async (client) => {
   const address = process.env.ADDRESS;
   const tokensQuery = `
      query {
-      erc721Tokens(
-        where: {
-          contract :"${address.toLowerCase()}",
-          identifier_gte : ${fromId}
-        }
-        orderBy: identifier) {
-        id,
-        identifier,
-        uri,
-      }
+       erc721Contract(id: "${address.toLowerCase()}") {
+         id,
+         tokens(where: {identifier_gte:${fromId}},orderBy: identifier) {
+           id,
+           identifier,
+           uri,
+           totalSupply {
+             id
+           },
+           balances {
+             id
+           }
+         }
+       }
     }
   `;
 
