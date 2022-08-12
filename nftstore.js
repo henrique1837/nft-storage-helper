@@ -7,7 +7,6 @@ const client = new NFTStorage({ token: NFT_STORAGE_TOKEN })
 
 async function init(){
   // list all files in the directory
-
   let contracts = fs.readdirSync(`./data`);
   for(let contract of contracts){
     let folders = fs.readdirSync(`./data/${contract}`);

@@ -1,14 +1,14 @@
+import { create } from 'ipfs-http-client';
 import axios from 'axios';
 import fs from 'fs';
 
 import gateways from './gateways.js';
 
 
-
-const getAndPinFromPublicGateways = async (cid,ipfs) => {
-  const gateway = gateways[Math.floor(Math.random()*gateways.length)];
-  console.log(`Using public gateway ${gateway}${cid}`)
-  const metadata = (await axios.get(`${gateway}${cid}`)).data
+console.log('Initiating IPFS client');
+const ipfs = create();
+const getAndPinFromPublicGateways = async (cid) => {
+  const metadata = (await axios.get(`${gateways[Math.floor(Math.random()*gateways.length)]}${cid}`)).data
   const image = (await axios.get(metadata.image.replace("ipfs://",gateways[Math.floor(Math.random()*gateways.length)]))).data
   const cidImage = metadata.image.replace("ipfs://","");
   console.log(`Saving ${cid} metadata and ${cidImage} image and local pinning`);
@@ -26,11 +26,6 @@ const getAndPinFromPublicGateways = async (cid,ipfs) => {
     });
   }
   return({
-    contract: process.env.ADDRESS.toLowerCase(),
-    rpc: process.env.RPC,
-    name: metadata.name ? metadata.name : null,
-    description: metadata.description ? metadata.description : null,
-    external_url: metadata.external_url ? metadata.external_url : null,
     metadata: cid,
     image: cidImage
   })
