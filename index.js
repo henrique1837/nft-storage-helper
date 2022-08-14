@@ -1,4 +1,7 @@
 import ethers from 'ethers';
+import fs from 'fs';
+import chalk from 'chalk'
+
 import getAndPinFromPublicGateways from './utils/getAndPinFromPublicGateways.js';
 import checkDirectories from './utils/checkDirectories.js';
 import {initiateClient,getERC1155From,getERC721From} from './utils/graphs.js';
@@ -49,17 +52,32 @@ async function main(){
   }
   console.log('Getting cids from metadata and images, pin and save local');
   let i = 1;
-
+  let errors = []
   for(let res of results){
 
     let cid = res.uri;
     let id = res.identifier;
-    console.log(`Getting data from token id ${id}, cid: ${cid}`);
-    const savedObj = await getAndPinFromPublicGateways(cid);
-    console.log(savedObj);
-    console.log(`Done ${i} from ${results.length}`);
-    i = i + 1;
+    console.log(`Getting data from token id ${chalk.cyan(id)}, cid: ${chalk.cyan(cid)}`);
+    try{
+      let savedObj = await getAndPinFromPublicGateways(cid);
+      savedObj.id = id;
+      console.log(savedObj);
+      const writeSource = fs.createWriteStream(`./ceramic/${savedObj.address}/${savedObj.id}.json`);
+      writeSource.write(JSON.stringify(savedObj));
+      console.log(`Done ${i} from ${results.length}`);
+      i = i + 1;
+    } catch(err){
+      console.log(chalk.red(err.message))
+      console.log(chalk.yellow(`Error getting data from token ID ${chalk.red(id)}, url ${chalk.red(err.config.url)}`))
+      errors.push(id);
+    }
 
+  }
+  if(errors.length > 0){
+    console.log(chalk.red(errors));
+    console.log(chalk.yellow(`Total of ${errors.length} errors from ${chalk.cyan(results.length)} operations`))
+  } else {
+    console.log(chalk.green(`Operation sucessfull`))
 
   }
   process.exit();

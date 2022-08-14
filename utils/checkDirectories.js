@@ -4,15 +4,25 @@ const checkDirectories = () => {
   if (!fs.existsSync('./data')){
       fs.mkdirSync('./data');
   }
-  if (!fs.existsSync(`./data/${process.env.ADDRESS}`)){
-      fs.mkdirSync(`./data/${process.env.ADDRESS}`);
+  if (!fs.existsSync('./ceramic')){
+      fs.mkdirSync('./ceramic');
   }
-  if (!fs.existsSync(`./data/${process.env.ADDRESS}/json`)){
-      fs.mkdirSync(`./data/${process.env.ADDRESS}/json`);
+  const address = process.env.ADDRESS.toLowerCase();
+  if (!fs.existsSync(`./data/${address}`)){
+      fs.mkdirSync(`./data/${address}`);
   }
-  if (!fs.existsSync(`./data/${process.env.ADDRESS}/images`)){
-      fs.mkdirSync(`./data/${process.env.ADDRESS}/images`);
+  if (!fs.existsSync(`./data/${address}/json`)){
+      fs.mkdirSync(`./data/${address}/json`);
   }
+  if (!fs.existsSync(`./data/${address}/images`)){
+      fs.mkdirSync(`./data/${address}/images`);
+  }
+
+  if (!fs.existsSync(`./ceramic/${address}`)){
+      fs.mkdirSync(`./ceramic/${address}`);
+  }
+
+
 }
 
 export default checkDirectories;
